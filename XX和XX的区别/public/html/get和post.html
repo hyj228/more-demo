@@ -1,0 +1,40 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 15:03:30
+ * @LastEditTime: 2021-05-06 15:30:19
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/get和post.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>get和post</title>
+</head>
+
+<body>
+    <pre>
+        get是将参数写在url中？的后面，并且用&分隔不能参数，post是将信息存放在Message Body中传送，参数不会显示在url中，get需要通过Request.QueryString取变量值，post需要通过Request.Form来获取变量的值
+        get请求提交的数据有长度限制（http协议本身并没有限制url及正文长度,对URL的限制大多是浏览器和服务器的原因），post请求没有内容长度限制
+        get会被浏览器缓存起来，post不会
+        get对数据进行查询，post主要对数据进行增删改
+        关于安全性，get请求从url地址就可以看到参数，所以post更安全。其实get和post都是不安全的，因为http协议是明文传输，只要拦截封包便能轻易获取重要资讯。想要安全传输资料，必须使用SSL/TLS来加密封包，也就是HTTPS
+
+        那为什么推崇使用post来处理敏感数据呢？
+            因为get的记录会保存在浏览器，上网日志中，而使用Post，因为数据不会记录存储在浏览器的记录和网址访问记录中，这样会有更大的安全性。
+            
+            一个误区 说GET产生一个TCP数据包；POST产生两个TCP数据包
+            
+            其说法：对于GET方式的请求，浏览器会把http header和data一并发送出去，服务端响应200，请求成功。
+            对于POST方式的请求，浏览器会先发送http header给服务端，告诉服务端等一下会有数据过来，服务端响应100 continue，告诉浏览器我已经准备接收数据，浏览器再post发送一个data给服务端，服务端响应200，请求成功。
+
+            为其正名:上面所说的post会比get多一个tcp包其实不太严谨。多发的那个expect 100 continue header报文，是由客户端对http的post和get的请求策略决定的，目的是为了避免浪费资源，如带宽，数据传输消耗的时间等等。
+            所以客户端会在发送header的时候添加expect 100去探探路，如果失败了就不用继续发送data，从而减少了资源的浪费。所以是否再发送一个包取决了客户端的实现策略，和get/post并没什么关系。有的客户端比如fireFox就只发送一个包
+    </pre>
+</body>
+
+</html>

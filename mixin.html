@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div onclick="handleClick()">点一下吧</div>
+    <script>
+        function setMixin(target, mixin) {
+            if (arguments[2]) {
+                for (var i = 2, len = arguments.length; i < len; i++) {
+                    target.prototype[arguments[i]] = mixin[arguments[i]];
+                }
+            }
+            else {
+                for (var methodName in mixin.prototype) {
+                    if (!Object.hasOwnProperty(target.prototype, methodName)) {
+                        target.prototype[methodName] = mixin.prototype[methodName];
+                    }
+                }
+            }
+            return target
+        }
+        var LogMixin = {
+            actionLog: function () {
+                console.log('action...');
+            },
+            requestLog: function () {
+                console.log('request...');
+            },
+        };
+        function User() {  /*..*/ }
+        function Goods() {  /*..*/ }
+        var user = new User();
+        var good = new Goods()
+        function handleClick() {
+            setMixin(User, LogMixin, 'actionLog');
+            // setMixin(Goods, LogMixin, 'requestLog');
+        }
+
+    </script>
+</body>
+
+</html>

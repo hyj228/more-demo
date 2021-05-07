@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            {<th></th>}
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+    <script>
+        let arr = { "dimensionalityValueList": ["TMK", "全网第一区", "凡星部落", "培训部", "多财项目", "天天奇迹-测试组", "开拓者", "探界者", "江左盟", "燃烧军团", "猎户星座", "蓝色行星", "金字塔", "销售运营", "顾问中台"], "list": [{ "resultValue": "9665", "serialNo": 1, "dimensionalityValue": "TMK" }, { "resultValue": "79893", "serialNo": 1, "dimensionalityValue": "全网第一区" }, { "resultValue": "33097", "serialNo": 2, "dimensionalityValue": "全网第一区" }, { "resultValue": "2267", "serialNo": 3, "dimensionalityValue": "全网第一区" }, { "resultValue": "46864", "serialNo": 1, "dimensionalityValue": "凡星部落" }, { "resultValue": "23476", "serialNo": 2, "dimensionalityValue": "凡星部落" }, { "resultValue": "2538", "serialNo": 3, "dimensionalityValue": "凡星部落" }, { "resultValue": "121", "serialNo": 1, "dimensionalityValue": "培训部" }, { "resultValue": "55", "serialNo": 2, "dimensionalityValue": "培训部" }, { "resultValue": "5", "serialNo": 3, "dimensionalityValue": "培训部" }, { "resultValue": "5", "serialNo": 1, "dimensionalityValue": "多财项目" }, { "resultValue": "14782", "serialNo": 1, "dimensionalityValue": "天天奇迹-测试组" }, { "resultValue": "5435", "serialNo": 2, "dimensionalityValue": "天天奇迹-测试组" }, { "resultValue": "188", "serialNo": 3, "dimensionalityValue": "天天奇迹-测试组" }, { "resultValue": "10814", "serialNo": 1, "dimensionalityValue": "开拓者" }, { "resultValue": "2191", "serialNo": 2, "dimensionalityValue": "开拓者" }, { "resultValue": "169", "serialNo": 3, "dimensionalityValue": "开拓者" }, { "resultValue": "534", "serialNo": 2, "dimensionalityValue": "探界者" }, { "resultValue": "29", "serialNo": 3, "dimensionalityValue": "探界者" }, { "resultValue": "19266", "serialNo": 1, "dimensionalityValue": "江左盟" }, { "resultValue": "1098", "serialNo": 2, "dimensionalityValue": "江左盟" }, { "resultValue": "38", "serialNo": 3, "dimensionalityValue": "江左盟" }, { "resultValue": "294", "serialNo": 1, "dimensionalityValue": "燃烧军团" }, { "resultValue": "19", "serialNo": 3, "dimensionalityValue": "燃烧军团" }, { "resultValue": "158793", "serialNo": 1, "dimensionalityValue": "猎户星座" }, { "resultValue": "71586", "serialNo": 2, "dimensionalityValue": "猎户星座" }, { "resultValue": "2900", "serialNo": 3, "dimensionalityValue": "猎户星座" }, { "resultValue": "21983", "serialNo": 1, "dimensionalityValue": "蓝色行星" }, { "resultValue": "2306", "serialNo": 2, "dimensionalityValue": "蓝色行星" }, { "resultValue": "192", "serialNo": 3, "dimensionalityValue": "蓝色行星" }, { "resultValue": "89926", "serialNo": 1, "dimensionalityValue": "金字塔" }, { "resultValue": "9670", "serialNo": 2, "dimensionalityValue": "金字塔" }, { "resultValue": "763", "serialNo": 3, "dimensionalityValue": "金字塔" }, { "resultValue": "18", "serialNo": 1, "dimensionalityValue": "销售运营" }, { "resultValue": "2", "serialNo": 1, "dimensionalityValue": "顾问中台" }] }
+        const onFilter = () => {
+            let filterArr = {}
+            for (let i = 0; i < arr.list.length; i++) {
+                const el = arr.list[i];
+                filterArr[el.dimensionalityValue] = filterArr[el.dimensionalityValue] ? [...filterArr[el.dimensionalityValue], el] : [el]
+            }
+            return filterArr
+        }
+        let objData = onFilter()
+        console.log(objData)
+        let bigLength = Math.max.apply(Math, arr.list.map((item) => { return item.serialNo; }));
+        const onData = () => {
+            let filterObj = { ...objData }
+            for (const key in filterObj) {
+                let item = filterObj[key]
+                let arrData = Array.from(new Array(bigLength), (el, i) => {
+                    return item[i] && item[i].serialNo === i + 1 ?
+                        item[i]
+                        : { resultValue: 0, serialNo: i + 1, dimensionalityValue: key }
+                })
+                filterObj[key] = [...arrData]
+            }
+            return filterObj
+        }
+        let filterData = onData()
+        const onEndData = () => {
+            let data = {}
+            for (const key in filterData) {
+                const item = filterData[key]
+                data[key] = []
+                for (let i = 0; i < item.length; i++) {
+                    const el = item[i];
+                    if (i === item.length - 1) {
+                        data[key].push({ ...el })
+                    } else {
+                        data[key].push({ ...el }, { resultValue: el.resultValue - item[i + 1].resultValue, dimensionalityValue: key, serialNo: `${i}-${i+1}` })
+                    }
+                }
+            }
+            return data
+        }
+        console.log(onEndData())
+        const onArrData = () => {
+            let dataObj = onEndData()
+            let dataArr = []
+            for (const key in dataObj) {
+                dataArr.push({ name: key, data: dataObj[key] })
+            }
+            return dataArr
+        }
+    </script>
+</body>
+
+</html>

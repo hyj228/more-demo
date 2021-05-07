@@ -1,0 +1,88 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 10:10:02
+ * @LastEditTime: 2021-05-06 10:48:26
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/Promise/demo2.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己手写</title>
+</head>
+
+<body>
+    <script>
+        // 判断变量否为function
+        const isFunction = variable => typeof variable === 'function'
+        // 定义Promise的三种状态常量
+        const PENDING = 'PENDING'
+        const FULFILLED = 'FULFILLED'
+        const REJECTED = 'REJECTED'
+        class MyPromise {
+            constructor(handle) {
+                // 添加状态
+                this._status = PENDING
+                this._value
+                this._fulfilledQueues = []
+                this._rejectedQueues = []
+                if (isFunction(handle)) {
+                    handle(this._resolve.bind(this), this._reject.bind(this))
+                } else {
+                    throw Error('handle 必须是函数')
+                }
+            }
+            _resolve(val) {
+                const run = () => {
+                    if (this._status !== PENDING) {
+                        return
+                    }
+                    this._status = FULFILLED
+                    this._value = val
+                }
+                setTimeout(run, 0);
+            }
+            _reject() {
+
+            }
+            then(onResolve, onReject) {
+                const { _status, _value } = this
+                return new MyPromise((onResolveNext, onRejectNext) => {
+                    let fulfilled = (value) => {
+                        let res = onResolve(value)
+                        onResolveNext(res)
+                    }
+                    let rejected = (error) => {
+
+                    }
+                    switch (_status) {
+                        case PENDING:
+                            this._fulfilledQueues.push(fulfilled)
+                            this._rejectedQueues.push(rejected)
+                            break;
+
+                        default:
+                            break;
+                    }
+                })
+            }
+        }
+        let pro = new Promise((resolve, reject) => {
+            resolve('我是Promise的resolve')
+        })
+        let promise = new MyPromise((resolve, reject) => {
+            resolve('我是resolve')
+        })
+        promise.then(res => {
+            console.log(res, 'sass')
+        })
+        console.log(pro, promise, 'pro')
+    </script>
+</body>
+
+</html>

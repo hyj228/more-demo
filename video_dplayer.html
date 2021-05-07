@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="dplayer"></div>
+    <!-- <script src="./DPlayer.min.js"></script> -->
+    <script src="./player.js"></script>
+    <script>
+        console.log(window,'sas')
+        var player = new Vimeo.Player('dplayer',{
+            url:'https://outin-30ffccdb3e9d11eb9ac400163e1c7426.oss-cn-shanghai.aliyuncs.com/4ff0d30c844f453c891688b2bcb7a0a5/video/79dcfc2196114c8c9b3249c3285d8401-9013eb77bfbff1b7e85feab426ba48ac-video-fd.m3u8?Expires=1616252768&OSSAccessKeyId=LTAIrkwb21KyGjJl&Signature=3L3vksloFnrRucAKtNF26uuPhOU%3D'
+        });
+        console.log(player,'sas')
+        player.on('play', function () {
+            console.log('played the video!');
+        });
+
+        player.getVideoTitle().then(function (title) {
+            console.log('title:', title);
+        });
+    </script>
+</body>
+
+</html>

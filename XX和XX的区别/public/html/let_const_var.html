@@ -1,0 +1,50 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-30 14:50:47
+ * @LastEditTime: 2021-05-06 13:55:04
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/let_const_var.html
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let/const/var</title>
+</head>
+<body>
+    <div>let/const/var </div>
+    <pre>
+        * var 存在变量提升 在声明之前调用值是undefined
+        * let和const 不存在变量提升  在声明之前调用 会报错 
+        * 又称暂时性死区
+        
+        * var 可以重复声明 cons和let同一作用域只能声明一次，不能重复声明。
+        * const的值如果是基本数据类型则不能修改，因为基本数据类型存在栈中，更改值引用地址会发生改变，引用数据类型可以改变，因为引用存在堆中，栈中存的是堆中的地址，更改值时，引用地址不变，所以不会报错。
+        * 如果不想修改，可以使用object.freeze冻结对象。
+    </pre>
+    <script>
+        console.log(window,'message')
+        // var 存在变量提升 在声明之前调用值是undefined
+        console.log(a)
+        var a = '我是var'
+        // let和const 不存在变量提升  在声明之前调用 会报错 
+        // 又称暂时性死区
+
+        /**
+         * @description: var 可以重复声明 cons和let同一作用域只能声明一次，不能重复声明。
+         * const的值如果是基本数据类型则不能修改，因为基本数据类型存在栈中，更改值引用地址会发生改变，引用数据类型可以改变，因为引用存在堆中，栈中存的是堆中的地址，更改值时，引用地址不变，所以不会报错。
+         * 如果不想修改，可以使用object.freeze冻结对象。
+         */
+        // console.log(b)
+        let b = '我是let'
+        // console.log(c)
+        const c = '我是const'
+
+    </script>
+</body>
+</html>

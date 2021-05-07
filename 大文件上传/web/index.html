@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <input type="file" id="fileId">
+        <button id='fileUploadBtn'>上传</button>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <script src="./hash.js"></script> -->
+    <script>
+        const URL = 'http://localhost:8000'
+        $(document).ready(function () {
+            const SIZE = 10 * 1024 * 1024 //切片的大小
+            let data = {
+                fileData: null,
+                fileHash: '',
+                fileUploadData: [],
+                init() {
+                    this.getFile()
+                    this.getUpload()
+                },
+                getFile() {
+                    $('#fileId').on('change', function (e) {
+                        const [file] = e.target.files
+                        this.fileData = file
+                        console.log(file, this, 'file')
+                    }.bind(this))
+                },
+                randomString(len) {
+                    len = len || 32;
+                    let chars = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678-";
+                    let maxPos = chars.length;
+                    let pwd = "";
+                    for (let i = 0; i < len; i++) {
+                        pwd += chars.charAt(Math.floor(Math.random() * maxPos));
+                    }
+                    let day = new Date().getTime();
+                    return `${day}_${pwd}`;
+                },
+                getUpload() {
+                    $('#fileUploadBtn').on('click', async function () {
+                        console.log(this, 'this.fileData')
+                        if (!this.fileData) {
+                            return
+                        }
+                        const fileChunkList = this.createFileChunk(this.fileData)
+                        this.fileHash = await this.randomString(6);
+                        this.fileUploadData = fileChunkList.map((file, i) => ({
+                            chunk: file,
+                            hash: this.fileData.name + "_" + i //标记文件顺序
+                        }))
+                        this.onUploadChunk()
+                    }.bind(this))
+                },
+                // 生成文件 hash（web-worker）
+                // calculateHash(fileChunkList) {
+                //     return new Promise(resolve => {
+
+                //         // let worker = new Worker("/hash.js");
+                //         // worker.postMessage({ fileChunkList });
+                //         // worker.onmessage = e => {
+                //         //     const { percentage, hash } = e.data;
+                //         //     this.hashPercentage = percentage;
+                //         //     if (hash) {
+                //         //         resolve(hash);
+                //         //     }
+                //         // };
+                //         console.log(hash,'worker')
+                //     });
+                // },
+                onUploadChunk() {
+                    console.log(this.fileUploadData, 'ss')
+                    const requestList = this.fileUploadData.map(({ chunk, hash }, index) => {
+                        const formData = new FormData()
+                        console.log(this, 'chunk')
+                        formData.append('chunk', chunk.file)
+                        formData.append('hash', hash)
+                        formData.append('filename', this.fileData.name)
+                        // formData.append('fileHash', this.fileHash)
+                        return { formData, index }
+                    }).map(({ formData }) => request({
+                        url: '/',
+                        data: formData
+                    }))
+                    console.log(requestList, 'requestList')
+                    Promise.all(requestList).then(res => {
+                        console.log(res, 'sss444')
+                        this.mergeRequest()
+                    }).catch(() => {
+
+                    })
+                },
+                // 上传合并切片
+                mergeRequest() {
+                    request({
+                        url: '/merge',
+                        headers: { 'Content_type': "application/json" },
+                        data: JSON.stringify({ filename: this.fileData.name, fileHash: this.fileHash,size:SIZE })
+                    })
+                },
+                // 生成切片数组
+                createFileChunk(file, size = SIZE) {
+                    const fileChunkList = []
+                    let cur = 0
+                    while (cur < file.size) {
+                        fileChunkList.push({ file: file.slice(cur, cur + size) })
+                        cur = cur + size
+                    }
+                    return fileChunkList
+                }
+            }
+            const request = ({
+                url,
+                method = "post",
+                data,
+                headers = {},
+                onprogress = (e) => e
+            }) => {
+                return new Promise((resolve, reject) => {
+                    // $.ajax({
+                    //     url: URL + url,
+                    //     data,
+                    //     type:method,
+                    //     headers,
+                    //     dataType: 'json',
+                    //     contentType: false,
+                    //     // 告诉jQuery不要去设置Content-Type请求头
+                    //     processData: false,// 告诉jQuery不要去处理发送的数据
+                    //     success(res) {
+                    //         console.log(res,'res')
+                    //         resolve(res)
+                    //     },
+                    //     error(err) {
+                    //         console.log(err,'err')
+                    //         reject(err)
+                    //     }
+                    // })
+                    const xhr = new XMLHttpRequest();
+                    // xhr.upload.onprogress = onProgress;
+                    xhr.open(method, URL + url);
+                    Object.keys(headers).forEach(key =>
+                        xhr.setRequestHeader(key, headers[key])
+                    );
+                    xhr.send(data);
+                    xhr.onload = e => {
+                        resolve({
+                            data: e.target.response
+                        });
+                    };
+                });
+            }
+
+            data.init()
+        })
+    </script>
+</body>
+
+</html>

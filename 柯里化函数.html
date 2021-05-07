@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function add() {
+            // 第一次执行时，定义一个数组专门用来存储所有的参数
+            let _args = Array.prototype.slice.call(arguments);
+            // 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值
+            let _adder = function () {
+                _args.push(...arguments);
+                return _adder;
+            };
+            // 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回
+            _adder.toString = function () {
+                return _args.reduce(function (a, b) {
+                    return a + b;
+                });
+            }
+            return _adder;
+        }
+        console.log(add(1)(2)(3)(4), 'add(1)(2)(3)(4)')
+
+        let o1 = {
+            a: 1
+        };
+        let o2 = {
+            a: 2
+        };
+        let o3 = {
+            a: 3
+        };
+
+        function fn(b, c) {
+            console.log(this.a);
+        };
+
+        let fn1 = fn.bind(o1);
+        let fn2 = fn1.bind(o2);
+        let fn3 = fn2.bind(o3);
+        fn3() //?
+
+        
+        console.log('script start');
+
+        setTimeout(function () {
+            console.log('setTimeout');
+        }, 0);
+
+        Promise.resolve().then(function () {
+            console.log('promise1');
+        }).then(function () {
+            console.log('promise2');
+        });
+        console.log('script end');
+    </script>
+</body>
+
+</html>

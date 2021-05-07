@@ -1,0 +1,32 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 16:57:45
+ * @LastEditTime: 2021-05-06 16:58:16
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/html/TCP和UDP.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP和UDP</title>
+</head>
+
+<body>
+    <pre>
+        a. TCP 是面向连接的，udp 是无连接的即发送数据前不需要先建立链接。
+        b. TCP 提供可靠的服务。也就是说，通过 TCP 连接传送的数据，无差错，不丢失，不重复，且按序到达; UDP 尽最大努力交付，即不保证可靠交付。 并且因为 tcp 可靠，
+        面向连接，不会丢失数据因此适合大数据量的交换。
+        c. TCP 是面向字节流，UDP 面向报文，并且网络出现拥塞不会使得发送速率降低（因
+        此会出现丢包，对实时的应用比如 IP 电话和视频会议等）。
+        d. TCP 只能是 1 对 1 的，而UDP 支持 1 对 1,1 对多。
+        e. TCP 的首部较大为 20 字节，而 UDP 只有 8 字节。
+        f. TCP 是面向连接的可靠性传输，而 UDP 是不可靠的
+    </pre>
+</body>
+
+</html>

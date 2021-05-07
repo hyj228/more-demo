@@ -1,0 +1,35 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-30 15:24:14
+ * @LastEditTime: 2021-05-06 13:54:01
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/bigint_number.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bigint_number</title>
+</head>
+
+<body>
+    <pre>
+        * number 类型有精度限制（53个二进制，16个十进制，+-9007199254740992）
+        * bigint 没有位数限制 任何位数的整数都可以精确表示 但是bigint必须加后缀n 可以使用- 不能使用+
+        * 两种类型不能混合运算
+    </pre>
+    <script>
+        /**
+         * number 类型有精度限制（53个二进制，16个十进制，+-9007199254740992）
+         * bigint 没有位数限制 任何位数的整数都可以精确表示 但是bigint必须加后缀n 可以使用- 不能使用+
+         * 两种类型不能混合运算
+         */
+        console.log(100000000000000000002n)
+    </script>
+</body>
+
+</html>

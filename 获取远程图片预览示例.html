@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>获取远程图片预览示例</title>
+  </head>
+  <body>
+    <h3>获取远程图片预览示例</h3>
+    <img id="previewContainer" style="width: 50%;"/>
+
+    <script>
+      const image = document.querySelector("#previewContainer");
+      fetch("https://s-q.mxcdn.cn/2020/06/15/Ft-soBCQjQIiuI4xi5WpgM-0Rtsu.png")
+        .then((response) => response.blob())
+        .then((blob) => {
+          const objectURL = URL.createObjectURL(blob);
+          console.log(objectURL,blob,'//objectURL')
+          image.src = objectURL;
+        });
+    </script>
+  </body>
+</html>

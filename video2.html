@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>前端播放m3u8格式视频</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/video.js/7.10.1/alt/video-js-cdn.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/video.js/7.10.1/alt/video.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"
+        type="text/javascript"></script>
+</head>
+
+<body>
+    <style>
+        .video-js .vjs-tech {
+            position: relative !important;
+        }
+    </style>
+    <div>
+        <video id='myvideo' width=960 height=540 class="video-js vjs-default-skin" controls>
+            <!-- hls直播源地址：CCTV1高清 -->
+            <source
+                src="https://outin-30ffccdb3e9d11eb9ac400163e1c7426.oss-cn-shanghai.aliyuncs.com/4ff0d30c844f453c891688b2bcb7a0a5/video/79dcfc2196114c8c9b3249c3285d8401-9013eb77bfbff1b7e85feab426ba48ac-video-fd.m3u8?Expires=1616144870&OSSAccessKeyId=LTAIrkwb21KyGjJl&Signature=ycD8RSZxlVapcQqlwx3UaCaDK%2FI%3D">
+        </video>
+        <script>
+            var player = videojs('myvideo', {}, function () { console.log('videojs播放器初始化成功') })
+            player.play();
+        </script>
+    </div>
+</body>

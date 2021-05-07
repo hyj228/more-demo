@@ -1,0 +1,39 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 15:32:09
+ * @LastEditTime: 2021-05-06 16:25:08
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/用框架和不用框架以及vue和react.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用框架和不用框架以及vue和react</title>
+</head>
+<body>
+    <pre>
+        框架和不用框架的区别（从框架角度看）：
+            1、使用框架工具写项目，浏览器中代码依然是原生的html css js，框架帮开发者做了很多事情，开发者只需要关注业务逻辑就可以，极大地加快了开发速度
+            2、组件化：其中以React的组件化最为彻底，可以到函数级别的原子组件，高度组件化可以使我们的工程易于维护，易于组合扩展。
+            3、天然分层：jquery时代的代码大部分情况下是面条代码，耦合严重，现代框架不管事MVC、MVP还是MVVM模式都能帮助我们进行分层，代码解耦更易于读写
+            4、生态：现在主流前端框架都自带生态，不管是数据管理架构还是UI库都有成熟的解决方案
+
+            优点：
+                前端框架根本上解决了UI与状态同步问题，频繁操作dom性能低下，中间步骤过多易产生bug且不易维护，而且心智要求较高不利于开发效率的一系列阻碍
+            缺点：
+                代码臃肿，使用者使用框架的时候会将整个框架引入，而框架封装了很多功能和组件，使用者必须按照它的规则使用，而实际开发中很多功能和组件是用不到的。
+                框架迭代更新速度快，需要时间熟悉它
+
+
+        Vue和React的区别：
+            react整体是函数式思想，把组件设计成纯组件，状态和逻辑通过参数传入，所以react中，是单向数据流
+            vue的思想是响应式，也就是基于数据可变的，通过对每一个属性建立Watcher来监听，当属性变化的时候，响应式的更新对应的虚拟dom
+
+        
+    </pre>
+</body>
+</html>
