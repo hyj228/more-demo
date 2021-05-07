@@ -1,0 +1,27 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 14:32:37
+ * @LastEditTime: 2021-05-06 14:40:30
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/defer和async.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>defer和async</title>
+</head>
+<body>
+    <pre>
+        defer和async是script的属性
+        defer：延迟；表示脚本会被延迟到整个页面都解析完毕后再运行，所以加defer相当于告诉浏览器立即下载，但延迟执行
+        async：异步；和defer类似，都用于改变处理脚本的行为。async只适用于外部脚本文件。async属性的目的是不然页面等待两个脚本下载和执行，从而异步加载页面其他内容，用于互不依赖的脚本
+        
+        作用：
+        用来解决白屏和阻塞的问题，最好还是放在body底部，没有兼容性问题
+    </pre>
+</body>
+</html>

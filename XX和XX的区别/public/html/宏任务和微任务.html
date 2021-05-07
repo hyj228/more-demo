@@ -1,0 +1,80 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-06 16:25:33
+ * @LastEditTime: 2021-05-06 16:53:32
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/宏任务和微任务.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏任务和微任务</title>
+</head>
+
+<body>
+    <pre>
+        宏任务： 浏览器 Node
+        setTimeout ✅ ✅
+        setInterval ✅ ✅
+        setImmediate
+        requestAnimationFrame ✅ ✅
+
+        微任务
+        process.nextTick ❌ ✅
+        MutationObserver ✅ ❌
+        Promise.then catch finally ✅ ✅
+
+        宏任务与微任务之间的执行顺序 ： 同步任务=>微任务=>宏任务
+        <img width="500" src="/images/宏任务和微任务.png"/>
+        
+    </pre>
+    <script>
+        setTimeout(function () {//宏任务1
+            console.log('1');
+        });
+        new Promise(function (resolve) {
+            console.log('2');//同步任务1
+            resolve();
+        }).then(function () {//微任务1
+            console.log('3');
+        });
+        console.log('4');//同步任务2
+        setTimeout(function () {//宏任务2
+            console.log('5');//宏任务2中的同步任务
+            new Promise(function (resolve) {
+                console.log('6');//宏任务2中的同步任务
+                new Promise(function (resolve) {//宏任务2中的微任务
+                    console.log('x1');
+                    resolve();
+                }).then(function () {
+                    console.log('X2');
+                });
+                setTimeout(function () {//宏任务2中的宏任务
+                    console.log('X3');
+                    new Promise(function (resolve) {//宏任务2中的宏任务中的同步任务
+                        console.log('X4');
+                        resolve();
+                    }).then(function () {//宏任务2中的宏任务中的微任务
+                        console.log('X5');
+                    });
+                })
+                resolve();
+            }).then(function () {//宏任务2中的微任务
+                console.log('7');
+            });
+        })
+        setTimeout(function () {//宏任务3
+            console.log('8');
+        });
+        //（对于这段代码node环境和浏览器环境输出一致）
+        //输出答案：2,4,3,1,5,6,x1,x2,7,8,x3,x4,x5
+    </script>
+
+</body>
+
+</html>

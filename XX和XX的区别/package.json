@@ -1,0 +1,24 @@
+{
+  "name": "hyj_difference",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "crypto": "^1.0.1",
+    "koa": "^2.13.1",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^7.0.1",
+    "request": "^2.88.2",
+    "request-progress": "^3.0.0",
+    "url": "^0.11.0",
+    "ws": "^7.4.5"
+  }
+}

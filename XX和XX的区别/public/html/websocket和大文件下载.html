@@ -1,0 +1,96 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-05-07 11:57:08
+ * @LastEditTime: 2021-05-07 14:29:42
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /一些demo/XX和XX的区别/public/html/websocket.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>websocket</title>
+    <style>
+        .file_progress{
+            width: 200px;
+            height: 30px;
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #000;
+            position: relative;
+        }
+        .file_progress_box{
+            position: absolute;
+            width: 0px;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="vertical-center">
+        <div class="container">
+            <!-- 客户端加一个简单的input输入框和一个发送按钮 -->
+            <div class="form-group">
+                <input class="form-control" type="text" name="message" id="message" value="" />
+            </div>
+            <button type="button" id="send" class="btn btn-primary">
+                发送
+            </button>
+
+            <button type="button" id="downFile" class="btn btn-primary">
+                下载
+            </button>
+            <div class="file_progress">
+                <div class="file_progress_box"></div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jQuery.js"></script>
+    <script>
+        $(document).ready(() => {
+            var ws = new WebSocket("ws://localhost:8000");
+            ws.onopen = function (e) {
+                //成功连接服务器回调
+                console.log('客户端（client）：与服务器的连接已打开')
+            }
+            ws.onmessage=(e)=>{
+                let data = JSON.parse(e.data)
+                console.log(data,'ss')
+                $('.file_progress_box').css({width:`${data.pct*200}px`})
+            }
+            $('#send').on('click', () => {
+                console.log('as')
+                if ($('#message').val()) {
+                    ws.send($('#message').val());
+                } else {
+                    alert('message不能为空')
+                }
+            })
+            $('#downFile').on('click', () => {
+                $.ajax({
+                    url:'/file_down',
+                    method:'POST',
+                    success:(res)=>{
+                        console.log(res,'asas')
+                    },
+                    error:(err)=>{
+                        console.log(err,'err')
+                    }
+                })
+            })
+
+        })
+
+    </script>
+</body>
+
+</html>

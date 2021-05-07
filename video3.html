@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <title>Vod</title>
+    <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css" />
+</head>
+
+<body>
+    <!-- <div class="prism-player" id="J_prismPlayer"></div> -->
+    <script type="text/javascript" src="http://g.alicdn.com/de/prismplayer/2.6.0/aliplayer-min.js"></script>
+    <!-- <script>
+        var player = new Aliplayer({
+            id: "J_prismPlayer",
+            autoplay: true,
+            width: "520px",
+            height: "580px",
+            vid: "4080a72cfcf946ca967904499798903d",
+            playauth: '',
+            cover: ''
+        });
+    </script> -->
+    <script>
+        var palyerDom = document.createElement('div');
+        palyerDom.id = 'J_prismPlayer';
+        palyerDom.style.width = '520px';
+        palyerDom.style.height = '580px';
+        palyerDom.className = 'prism-player';
+        var body = document.getElementsByTagName('body');
+        if (body.length) {
+            body[0].appendChild(palyerDom);
+            var player = new Aliplayer({
+                id: "J_prismPlayer",
+                autoplay: true,
+                width: "520px",
+                height: "580px",
+                vid: "4080a72cfcf946ca967904499798903d",
+                playauth: '',
+                cover: ''
+            });
+        }
+    </script>
+</body>
